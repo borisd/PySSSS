@@ -22,6 +22,7 @@ from GF256elt import GF256elt
 from PGF256 import PGF256
 from PGF256Interpolator import PGF256Interpolator
 
+
 def pickRandomPolynomial(degree,zero):
   """Pick a random PGF256 polynomial P such that P(0) = zero"""
    
@@ -141,28 +142,3 @@ def decode(keys,output):
     # Decode next byte
     byte = interpolator.interpolate(points).f(zero)
     output.write(chr(byte))
-
-if __name__ == "__main__":
-  import StringIO
-  input = StringIO.StringIO("Too many secrets, Marty!")
-  outputs = []
-  n = 5
-  k = 3
-  for i in xrange(n):
-    outputs.append(StringIO.StringIO())
-
-  encode(input,outputs,k)
-
-  for i in xrange(n):
-    print outputs[i].getvalue().encode('hex')
-
-  inputs = []
-  for i in xrange(k):
-    inputs.append(outputs[i+1])
-
-  for i in xrange(k):
-    inputs[i].seek(0)
-
-  output = StringIO.StringIO()
-  decode(inputs,output)  
-  print output.getvalue()
